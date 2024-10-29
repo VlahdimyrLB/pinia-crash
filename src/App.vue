@@ -6,6 +6,14 @@
       <h1>Pinia Tasks</h1>
     </header>
 
+    <!-- new task form -->
+    <div class="new-task-form">
+      <TaskForm />
+    </div>
+
+    <!-- loading -->
+    <div class="loading" v-if="taskStore.isLoading">Loading tasks...</div>
+
     <!-- filter -->
     <nav class="filter">
       <button @click="filter = 'all'">All tasks</button>
@@ -30,14 +38,17 @@
 
 <script>
 import TaskDetails from "./components/TaskDetails.vue";
-
+import TaskForm from "./components/TaskForm.vue";
 import { useTaskStore } from "./stores/TaskStore";
 import { ref } from "vue";
 
 export default {
-  components: { TaskDetails },
+  components: { TaskDetails, TaskForm },
   setup() {
     const taskStore = useTaskStore();
+
+    // fetch tasks
+    taskStore.fetchTasks();
 
     const filter = ref("all");
 
